@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Métricas de Email Marketing</title>
+    <!-- Tailwind CSS para diseño responsive y estilizado -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tipografía elegante y legible -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        crema: {
+                            50: '#FDFBF7',
+                            100: '#F9F5EC',
+                            200: '#F2E9D8',
+                            300: '#E6D5B8',
+                        },
+                        caramelo: {
+                            400: '#C69C6D',
+                            500: '#A67B5B',
+                            600: '#8C6239',
+                        },
+                        brownie: {
+                            700: '#5C3A21',
+                            800: '#422817',
+                            900: '#2E1A0E',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Ocultar flechas predeterminadas de inputs numéricos para mayor limpieza visual */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body class="bg-crema-100 text-brownie-900 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- Encabezado Superior -->
+    <header class="bg-brownie-800 text-crema-50 shadow-md border-b-4 border-caramelo-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <div class="flex flex-wrap items-center gap-2 mb-1.5">
+                    <span class="uppercase tracking-widest text-xs font-bold text-brownie-900 bg-caramelo-400 px-2.5 py-0.5 rounded">
+                        BAKE OFF
+                    </span>
+                    <span class="text-xs font-medium text-crema-200 tracking-wide">
+                        Cookies Melcochudas &amp; Cookie Bowls · Cali, CO
+                    </span>
+                </div>
+                <h1 class="font-serif text-2xl sm:text-3xl font-bold tracking-tight text-crema-50">
+                    Calculadora de Métricas de Email Marketing
+                </h1>
+                <p class="text-crema-200 text-sm mt-1">
+                    Evalúa el desempeño de tus campañas con metas personalizadas y cálculo de retorno de inversión.
+                </p>
+            </div>
+            
+            <!-- Botones de Acción Rápida -->
+            <div class="flex flex-wrap items-center gap-3">
+                <button type="button" id="btn-cargar-ejemplo" 
+                    class="px-4 py-2.5 bg-caramelo-500 hover:bg-caramelo-600 active:bg-brownie-700 text-white text-sm font-medium rounded-lg shadow-sm transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-crema-200">
+                    Cargar datos de ejemplo (Ficticios)
+                </button>
+                <button type="button" id="btn-limpiar" 
+                    class="px-4 py-2.5 bg-brownie-700 hover:bg-brownie-900 text-crema-100 border border-caramelo-500/40 text-sm font-medium rounded-lg transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-crema-200">
+                    Limpiar campos
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sección de Identificación: Análisis de campaña -->
+    <section aria-labelledby="titulo-analisis-campana" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 w-full">
+        <div class="bg-crema-50 rounded-2xl shadow-sm border border-crema-300 p-5 sm:p-6">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 border-b border-crema-200 pb-3 mb-4">
+                <h2 id="titulo-analisis-campana" class="font-serif text-lg font-bold text-brownie-800">
+                    Análisis de campaña
+                </h2>
+                <span class="text-xs text-caramelo-600 font-medium">
+                    Campos opcionales para identificar el correo evaluado
+                </span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Nombre de la campaña -->
+                <div>
+                    <label for="input-nombre-campana" class="block text-sm font-semibold text-brownie-800 mb-1">
+                        Nombre de la campaña <span class="text-brownie-700 font-normal text-xs">(Opcional)</span>
+                    </label>
+                    <input type="text" id="input-nombre-campana" placeholder="Ejemplo: Correo de bienvenida"
+                        class="w-full rounded-xl border border-crema-300 bg-white px-4 py-2.5 text-brownie-900 font-medium placeholder:text-brownie-700/45 focus:border-caramelo-500 focus:ring-2 focus:ring-caramelo-400/30 focus:outline-none transition">
+                </div>
+                <!-- Llamado a la acción o CTA -->
+                <div>
+                    <label for="input-cta-campana" class="block text-sm font-semibold text-brownie-800 mb-1">
+                        Llamado a la acción o CTA <span class="text-brownie-700 font-normal text-xs">(Opcional)</span>
+                    </label>
+                    <input type="text" id="input-cta-campana" placeholder="Ejemplo: Descubrir mi menú"
+                        class="w-full rounded-xl border border-crema-300 bg-white px-4 py-2.5 text-brownie-900 font-medium placeholder:text-brownie-700/45 focus:border-caramelo-500 focus:ring-2 focus:ring-caramelo-400/30 focus:outline-none transition">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Banner de Notificación (Datos ficticios o alertas de validación) -->
+    <div id="banner-notificacion" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 w-full">
+        <div id="banner-contenido" class="rounded-xl p-4 border flex items-start justify-between gap-4 shadow-sm">
+            <div class="text-sm font-medium" id="banner-texto"></div>
+            <button type="button" id="btn-cerrar-banner" class="text-xs uppercase tracking-wider font-bold opacity-75 hover:opacity-100">
+                Cerrar
+            </button>
+        </div>
+    </div>
+
+    <!-- Contenido Principal -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- COLUMNA IZQUIERDA: ENTRADAS DE DATOS -->
+            <section class="lg:col-span-5 bg-crema-50 rounded-2xl shadow-sm border border-crema-300 p-6 sm:p-7">
+                <div class="border-b border-crema-200 pb-4 mb-6">
+                    <h2 class="font-serif text-xl font-bold text-brownie-800">
+                        1. Datos de la Campaña
+                    </h2>
+                    <p class="text-xs text-brownie-700 mt-1">
+                        Ingresa los valores absolutos obtenidos en tu plataforma de envío.
+                    </p>
+                </div>
+
+                <form id="form-metricas" class="space-y-5" novalidate>
+                    
+                    <!-- Grupo: Volumen y Participación -->
+                    <div class="space-y-4">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-caramelo-600">
+                            Métricas de Envío e Interacción
+                        </h3>
+
+                        <!-- Correos entregados -->
+                        <div>
+                            <label for="input-entregados" class="block text-sm font-semibold text-brownie-800 mb-1">
+                                Correos entregados <span class="text-red-700 font-normal text-xs">(Requerido para tasas)</span>
+                            </label>
+                            <input type="number" id="input-entregados" min="0" step="1" placeholder="Ej. 10000"
+                                class="w-full rounded-xl border border-crema-300 bg-white px-4 py-2.5 text-brownie-900 font-medium focus:border-caramelo-500 focus:ring-2 focus:ring-caramelo-400/30 focus:outline-none transition">
+                            <p id="error-entregados" class="hidden text-xs text-red-700 font-medium mt-1"></p>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- Clics únicos -->
+                            <div>
+                                <label for="input-clics" class="block text-sm font-semibold text-brownie-800 mb-1">
+                                    Clics únicos
+                                </label>
+                                <input type="number" id="input-clics" min="0" step="1" placeholder="Ej. 350"
+                                    class="w-full rounded-xl border border-crema-300 bg-white px-4 py-2.5 text-brownie-900 font-medium focus:border-caramelo-500 focus:ring-2 focus:ring-caramelo-400/30 focus:outline-none transition">
+                                <p id="error-clics" class="hidden text-xs text-red-700 font-medium mt-1"></p>
+                            </div>
+
+                            <!-- Respuestas -->
+                            <div>
+                                <label for="input-respuestas" class="block text-sm font-semibold text-brownie-800 mb-1">
+                                    Respuestas
+                                </label>
+                                <input type="number" id="input-respuestas" min="0" step="1" placeholder="Ej. 45"
+                                    class="w-full rounded-xl border border-crema-300 bg-white px-4 py-2.5 text-brownie-900 font-medium focus:border-caramelo-500 focus:ring-2 focus:ring-caramelo-400/30 focus:outline-none transition">
+                                <p id="error-respuestas" class="hidden text-xs text-red-700 font-medium mt-1"></p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- Conversiones -->
+                            <div>
+                                <label for="input-conversiones" class="block text-sm font-semibold text-brownie-800 mb-1">
+                                    Conversiones
+                                </label>
+                                <input type="number" id="input-conversiones" min="0" step="1" placeholder="Ej. 80"
+                                    class="w-full rounded-xl border border-crema-300 bg-white px-4 py-2.5 text-brownie-900 font-medium focus:border-caramelo-500 focus:ring-2 focus:ring-caramelo-400/30 focus:outline-none transition">
+                                <p id="error-conversiones" class="hidden text-xs text-red-700 font-medium mt-1"></p>
+                            </div>
+
+                            <!-- Bajas -->
+                            <div>
+                                <label for="input-bajas" class="block text-sm font-semibold text-brownie-800 mb-1">
+                                    Bajas (Desuscripciones)
+                                </label>
+                                <input type="number" id="input-bajas" min="0" step="1" placeholder="Ej. 18"
+                                    class="w-full rounded-xl border border-crema-300 bg-white px-4 py-2.5 text-brownie-900 font-medium focus:border-caramelo-500 focus:ring-2 focus:ring-caramelo-400/30 focus:outline-none transition">
+                                <p id="error-bajas" class="hidden text-xs text-red-700 font-medium mt-1"></p>
+                            </div>
+                        </div>
+
+                        <!-- Reportes de spam -->
+                        <div>
+                            <label for="input-spam" class="block text-sm font-semibold text-brownie-800 mb-1">
+                                Reportes de spam
+                            </label>
+                            <input type="number" id="input-spam" min="0" step="1" placeholder="Ej. 3"
+                                class="w-full rounded-xl border border-crema-300 bg-white px-4 py-2.5 text-brownie-900 font-medium focus:border-caramelo-500 focus:ring-2 focus:ring-caramelo-400/30 focus:outline-none transition">
+                            <p id="error-spam" class="hidden text-xs text-red-700 font-medium mt-1"></p>
+                        </div>
+                    </div>
+
+                    <!-- Grupo: Datos Financieros -->
+                    <div class="pt-4 border-t border-crema-200 space-y-4">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-caramelo-600">
+                            Datos Financieros (Pesos Colombianos - COP)
+                        </h3>
+
+                        <!-- Inversión en pesos colombianos -->
+                        <div>
+                            <label for="input-inversion" class="block text-sm font-semibold text-brownie-800 mb-1">
+                                Inversión total (COP) <span class="text-brownie-700 font-normal text-xs">(Requerido para ROI)</span>
+                            </label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-caramelo-600 font-semibold text-sm">$</span>
+                                <input type="number" id="input-inversion" min="0" step="any" placeholder="Ej. 1500000"
+                                    class="w-full rounded-xl border border-crema-300 bg-white pl-8 pr-4 py-2.5 text-brownie-900 font-medium focus:border-caramelo-500 focus:ring-2 focus:ring-caramelo-400/30 focus:outline-none transition">
+                            </div>
+                            <p id="error-inversion" class="hidden text-xs text-red-700 font-medium mt-1"></p>
+                        </div>
+
+                        <!-- Ingreso por conversión -->
+                        <div>
+                            <label for="input-ingreso-conv" class="block text-sm font-semibold text-brownie-800 mb-1">
+                                Ingreso promedio por conversión (COP)
+                            </label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-caramelo-600 font-semibold text-sm">$</span>
+                                <input type="number" id="input-ingreso-conv" min="0" step="any" placeholder="Ej. 85000"
+                                    class="w-full rounded-xl border border-crema-300 bg-white pl-8 pr-4 py-2.5 text-brownie-900 font-medium focus:border-caramelo-500 focus:ring-2 focus:ring-caramelo-400/30 focus:outline-none transition">
+                            </div>
+                            <p id="error-ingreso-conv" class="hidden text-xs text-red-700 font-medium mt-1"></p>
+                        </div>
+
+                        <!-- Resumen Financiero Calculado -->
+                        <div class="bg-crema-100 rounded-xl p-4 border border-crema-300 flex items-center justify-between">
+                            <div>
+                                <span class="text-xs font-semibold uppercase tracking-wider text-brownie-700 block">
+                                    Ingresos Totales Estimados
+                                </span>
+                                <span class="text-xs text-caramelo-600">
+                                    Conversiones × Ingreso por conversión
+                                </span>
+                            </div>
+                            <div id="valor-ingresos-totales" class="text-lg font-bold text-brownie-900">
+                                $ 0
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </section>
+
+            <!-- COLUMNA DERECHA: RESULTADOS, METAS Y SEMÁFOROS -->
+            <section class="lg:col-span-7 space-y-6">
+                
+                <!-- Aviso de Denominador Faltante -->
+                <div id="alerta-denominador" class="bg-amber-50 border-l-4 border-amber-600 p-4 rounded-r-xl shadow-sm">
+                    <h3 class="text-sm font-bold text-amber-900">
+                        Falta el denominador principal (Correos entregados)
+                    </h3>
+                    <p class="text-xs text-amber-800 mt-1">
+                        Para calcular las tasas porcentuales de clics, respuesta, conversión, bajas y spam, ingresa un valor mayor a cero en el campo <strong>Correos entregados</strong>.
+                    </p>
+                </div>
+
+                <!-- Encabezado Sección Resultados -->
+                <div class="bg-crema-50 rounded-2xl shadow-sm border border-crema-300 p-6">
+                    <div class="border-b border-crema-200 pb-4 mb-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                        <div>
+                            <h2 class="font-serif text-xl font-bold text-brownie-800">
+                                2. Resultados, Metas y Diagnóstico
+                            </h2>
+                            <p class="text-xs text-brownie-700 mt-1">
+                                Ajusta las metas porcentuales según los estándares de tu industria.
+                            </p>
+                        </div>
+                        <!-- Leyenda de Semáforo -->
+                        <div class="flex items-center gap-3 text-xs font-medium bg-crema-100 px-3 py-1.5 rounded-lg border border-crema-200">
+                            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-600 inline-block"></span> Óptimo</span>
+                            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span> Alerta</span>
+                            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-600 inline-block"></span> Crítico</span>
+                        </div>
+                    </div>
+
+                    <!-- Cuadrícula de Tarjetas de Métricas -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5" id="contenedor-tarjetas">
+                        
+                        <!-- TARJETA 1: Tasa de Clics -->
+                        <article class="bg-white rounded-xl border border-crema-300 p-5 shadow-sm flex flex-col justify-between transition hover:border-caramelo-400">
+                            <div>
+                                <div class="flex items-start justify-between gap-2 mb-3">
+                                    <div>
+                                        <h3 class="font-bold text-brownie-900 text-base">Tasa de Clics (CTR)</h3>
+                                        <span class="text-[11px] font-medium text-caramelo-600 uppercase tracking-wider">Mayor es mejor</span>
+                                    </div>
+                                    <span id="badge-clics" class="px-2.5 py-1 rounded-full text-xs font-bold bg-crema-200 text-brownie-700">
+                                        Sin datos
+                                    </span>
+                                </div>
+
+                                <div class="flex items-baseline justify-between my-3 bg-crema-50 px-4 py-3 rounded-lg border border-crema-200">
+                                    <span id="res-clics" class="text-2xl font-bold text-brownie-900">-- %</span>
+                                    <div class="flex items-center gap-1.5">
+                                        <label for="meta-clics" class="text-xs font-semibold text-brownie-700">Meta (%):</label>
+                                        <input type="number" id="meta-clics" value="2.5" min="0" step="0.1"
+                                            class="w-16 rounded-lg border border-crema-300 bg-white px-2 py-1 text-right text-xs font-bold text-brownie-900 focus:border-caramelo-500 focus:outline-none">
+                                    </div>
+                                </div>
+
+                                <p id="desc-clics" class="text-xs text-brownie-700 leading-relaxed mb-3">
+                                    Ingresa los correos entregados y los clics únicos para evaluar el interés generado.
+                                </p>
+                            </div>
+
+                            <div class="pt-2.5 border-t border-crema-200 text-[11px] font-mono text-brownie-700/80 bg-crema-100/60 px-2.5 py-1.5 rounded">
+                                Fórmula: (Clics únicos / Entregados) × 100
+                            </div>
+                        </article>
+
+                        <!-- TARJETA 2: Tasa de Respuesta -->
+                        <article class="bg-white rounded-xl border border-crema-300 p-5 shadow-sm flex flex-col justify-between transition hover:border-caramelo-400">
+                            <div>
+                                <div class="flex items-start justify-between gap-2 mb-3">
+                                    <div>
+                                        <h3 class="font-bold text-brownie-900 text-base">Tasa de Respuesta</h3>
+                                        <span class="text-[11px] font-medium text-caramelo-600 uppercase tracking-wider">Mayor es mejor</span>
+                                    </div>
+                                    <span id="badge-respuestas" class="px-2.5 py-1 rounded-full text-xs font-bold bg-crema-200 text-brownie-700">
+                                        Sin datos
+                                    </span>
+                                </div>
+
+                                <div class="flex items-baseline justify-between my-3 bg-crema-50 px-4 py-3 rounded-lg border border-crema-200">
+                                    <span id="res-respuestas" class="text-2xl font-bold text-brownie-900">-- %</span>
+                                    <div class="flex items-center gap-1.5">
+                                        <label for="meta-respuestas" class="text-xs font-semibold text-brownie-700">Meta (%):</label>
+                                        <input type="number" id="meta-respuestas" value="0.5" min="0" step="0.1"
+                                            class="w-16 rounded-lg border border-crema-300 bg-white px-2 py-1 text-right text-xs font-bold text-brownie-900 focus:border-caramelo-500 focus:outline-none">
+                                    </div>
+                                </div>
+
+                                <p id="desc-respuestas" class="text-xs text-brownie-700 leading-relaxed mb-3">
+                                    Ingresa los correos entregados y las respuestas recibidas para medir la conversación directa.
+                                </p>
+                            </div>
+
+                            <div class="pt-2.5 border-t border-crema-200 text-[11px] font-mono text-brownie-700/80 bg-crema-100/60 px-2.5 py-1.5 rounded">
+                                Fórmula: (Respuestas / Entregados) × 100
+                            </div>
+                        </article>
+
+                        <!-- TARJETA 3: Tasa de Conversión -->
+                        <article class="bg-white rounded-xl border border-crema-300 p-5 shadow-sm flex flex-col justify-between transition hover:border-caramelo-400">
+                            <div>
+                                <div class="flex items-start justify-between gap-2 mb-3">
+                                    <div>
+                                        <h3 class="font-bold text-brownie-900 text-base">Tasa de Conversión</h3>
+                                        <span class="text-[11px] font-medium text-caramelo-600 uppercase tracking-wider">Mayor es mejor</span>
+                                    </div>
+                                    <span id="badge-conversiones" class="px-2.5 py-1 rounded-full text-xs font-bold bg-crema-200 text-brownie-700">
+                                        Sin datos
+                                    </span>
+                                </div>
+
+                                <div class="flex items-baseline justify-between my-3 bg-crema-50 px-4 py-3 rounded-lg border border-crema-200">
+                                    <span id="res-conversiones" class="text-2xl font-bold text-brownie-900">-- %</span>
+                                    <div class="flex items-center gap-1.5">
+                                        <label for="meta-conversiones" class="text-xs font-semibold text-brownie-700">Meta (%):</label>
+                                        <input type="number" id="meta-conversiones" value="1.0" min="0" step="0.1"
+                                            class="w-16 rounded-lg border border-crema-300 bg-white px-2 py-1 text-right text-xs font-bold text-brownie-900 focus:border-caramelo-500 focus:outline-none">
+                                    </div>
+                                </div>
+
+                                <p id="desc-conversiones" class="text-xs text-brownie-700 leading-relaxed mb-3">
+                                    Ingresa los correos entregados y las conversiones logradas para conocer la efectividad comercial.
+                                </p>
+                            </div>
+
+                            <div class="pt-2.5 border-t border-crema-200 text-[11px] font-mono text-brownie-700/80 bg-crema-100/60 px-2.5 py-1.5 rounded">
+                                Fórmula: (Conversiones / Entregados) × 100
+                            </div>
+                        </article>
+
+                        <!-- TARJETA 4: Tasa de Bajas -->
+                        <article class="bg-white rounded-xl border border-crema-300 p-5 shadow-sm flex flex-col justify-between transition hover:border-caramelo-400">
+                            <div>
+                                <div class="flex items-start justify-between gap-2 mb-3">
+                                    <div>
+                                        <h3 class="font-bold text-brownie-900 text-base">Tasa de Bajas</h3>
+                                        <span class="text-[11px] font-medium text-brownie-700 uppercase tracking-wider">Menor es mejor</span>
+                                    </div>
+                                    <span id="badge-bajas" class="px-2.5 py-1 rounded-full text-xs font-bold bg-crema-200 text-brownie-700">
+                                        Sin datos
+                                    </span>
+                                </div>
+
+                                <div class="flex items-baseline justify-between my-3 bg-crema-50 px-4 py-3 rounded-lg border border-crema-200">
+                                    <span id="res-bajas" class="text-2xl font-bold text-brownie-900">-- %</span>
+                                    <div class="flex items-center gap-1.5">
+                                        <label for="meta-bajas" class="text-xs font-semibold text-brownie-700">Meta máx (%):</label>
+                                        <input type="number" id="meta-bajas" value="0.2" min="0" step="0.05"
+                                            class="w-16 rounded-lg border border-crema-300 bg-white px-2 py-1 text-right text-xs font-bold text-brownie-900 focus:border-caramelo-500 focus:outline-none">
+                                    </div>
+                                </div>
+
+                                <p id="desc-bajas" class="text-xs text-brownie-700 leading-relaxed mb-3">
+                                    Ingresa los correos entregados y las bajas para monitorear la salud de tu lista.
+                                </p>
+                            </div>
+
+                            <div class="pt-2.5 border-t border-crema-200 text-[11px] font-mono text-brownie-700/80 bg-crema-100/60 px-2.5 py-1.5 rounded">
+                                Fórmula: (Bajas / Entregados) × 100
+                            </div>
+                        </article>
+
+                        <!-- TARJETA 5: Tasa de Spam -->
+                        <article class="bg-white rounded-xl border border-crema-300 p-5 shadow-sm flex flex-col justify-between transition hover:border-caramelo-400">
+                            <div>
+                                <div class="flex items-start justify-between gap-2 mb-3">
+                                    <div>
+                                        <h3 class="font-bold text-brownie-900 text-base">Tasa de Spam</h3>
+                                        <span class="text-[11px] font-medium text-brownie-700 uppercase tracking-wider">Menor es mejor</span>
+                                    </div>
+                                    <span id="badge-spam" class="px-2.5 py-1 rounded-full text-xs font-bold bg-crema-200 text-brownie-700">
+                                        Sin datos
+                                    </span>
+                                </div>
+
+                                <div class="flex items-baseline justify-between my-3 bg-crema-50 px-4 py-3 rounded-lg border border-crema-200">
+                                    <span id="res-spam" class="text-2xl font-bold text-brownie-900">-- %</span>
+                                    <div class="flex items-center gap-1.5">
+                                        <label for="meta-spam" class="text-xs font-semibold text-brownie-700">Meta máx (%):</label>
+                                        <input type="number" id="meta-spam" value="0.05" min="0" step="0.01"
+                                            class="w-16 rounded-lg border border-crema-300 bg-white px-2 py-1 text-right text-xs font-bold text-brownie-900 focus:border-caramelo-500 focus:outline-none">
+                                    </div>
+                                </div>
+
+                                <p id="desc-spam" class="text-xs text-brownie-700 leading-relaxed mb-3">
+                                    Ingresa los correos entregados y los reportes de spam para proteger la reputación de dominio.
+                                </p>
+                            </div>
+
+                            <div class="pt-2.5 border-t border-crema-200 text-[11px] font-mono text-brownie-700/80 bg-crema-100/60 px-2.5 py-1.5 rounded">
+                                Fórmula: (Reportes de spam / Entregados) × 100
+                            </div>
+                        </article>
+
+                        <!-- TARJETA 6: Retorno de Inversión (ROI) -->
+                        <article class="bg-brownie-800 text-crema-50 rounded-xl border border-brownie-900 p-5 shadow-md flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-start justify-between gap-2 mb-3">
+                                    <div>
+                                        <h3 class="font-bold text-crema-50 text-base">Retorno de Inversión (ROI)</h3>
+                                        <span class="text-[11px] font-medium text-caramelo-400 uppercase tracking-wider">Mayor es mejor</span>
+                                    </div>
+                                    <span id="badge-roi" class="px-2.5 py-1 rounded-full text-xs font-bold bg-brownie-700 text-crema-200">
+                                        Sin inversión
+                                    </span>
+                                </div>
+
+                                <div class="flex items-baseline justify-between my-3 bg-brownie-900/70 px-4 py-3 rounded-lg border border-caramelo-500/30">
+                                    <span id="res-roi" class="text-2xl font-bold text-crema-50">-- %</span>
+                                    <div class="flex items-center gap-1.5">
+                                        <label for="meta-roi" class="text-xs font-semibold text-crema-200">Meta (%):</label>
+                                        <input type="number" id="meta-roi" value="200" step="10"
+                                            class="w-20 rounded-lg border border-caramelo-500/50 bg-brownie-800 px-2 py-1 text-right text-xs font-bold text-crema-50 focus:border-caramelo-400 focus:outline-none">
+                                    </div>
+                                </div>
+
+                                <p id="desc-roi" class="text-xs text-crema-200 leading-relaxed mb-3">
+                                    Ingresa una inversión mayor a cero en pesos colombianos para calcular la rentabilidad neta.
+                                </p>
+                            </div>
+
+                            <div class="pt-2.5 border-t border-brownie-700 text-[11px] font-mono text-crema-300 bg-brownie-900/50 px-2.5 py-1.5 rounded">
+                                Fórmula: ((Ingresos totales - Inversión) / Inversión) × 100
+                            </div>
+                        </article>
+
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+    <!-- Pie de página -->
+    <footer class="bg-crema-200 border-t border-crema-300 py-5 mt-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-xs text-brownie-700 gap-2">
+            <p>Herramienta de Análisis de Campañas de Correo Electrónico</p>
+            <p>Todos los cálculos se realizan localmente en tu navegador en tiempo real.</p>
+        </div>
+    </footer>
+
+    <!-- Lógica JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Campos opcionales de identificación de campaña
+            const inputNombreCampana = document.getElementById('input-nombre-campana');
+            const inputCtaCampana = document.getElementById('input-cta-campana');
+
+            // Referencias a elementos de entrada
+            const inputs = {
+                entregados: document.getElementById('input-entregados'),
+                clics: document.getElementById('input-clics'),
+                respuestas: document.getElementById('input-respuestas'),
+                conversiones: document.getElementById('input-conversiones'),
+                bajas: document.getElementById('input-bajas'),
+                spam: document.getElementById('input-spam'),
+                inversion: document.getElementById('input-inversion'),
+                ingresoConv: document.getElementById('input-ingreso-conv')
+            };
+
+            // Referencias a elementos de metas
+            const metas = {
+                clics: document.getElementById('meta-clics'),
+                respuestas: document.getElementById('meta-respuestas'),
+                conversiones: document.getElementById('meta-conversiones'),
+                bajas: document.getElementById('meta-bajas'),
+                spam: document.getElementById('meta-spam'),
+                roi: document.getElementById('meta-roi')
+            };
+
+            // Referencias a elementos de interfaz y alertas
+            const alertaDenominador = document.getElementById('alerta-denominador');
+            const valorIngresosTotales = document.getElementById('valor-ingresos-totales');
+            const bannerNotificacion = document.getElementById('banner-notificacion');
+            const bannerContenido = document.getElementById('banner-contenido');
+            const bannerTexto = document.getElementById('banner-texto');
+            const btnCerrarBanner = document.getElementById('btn-cerrar-banner');
+            const btnEjemplo = document.getElementById('btn-cargar-ejemplo');
+            const btnLimpiar = document.getElementById('btn-limpiar');
+
+            // Formateador de moneda para Pesos Colombianos (COP)
+            const formatoCOP = new Intl.NumberFormat('es-CO', {
+                style: 'currency',
+                currency: 'COP',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            });
+
+            // Formateador de porcentajes
+            const formatoPorcentaje = (valor) => {
+                return valor.toLocaleString('es-CO', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }) + ' %';
+            };
+
+            /**
+             * Muestra un banner informativo en la parte superior
+             */
+            function mostrarBanner(mensaje, tipo = 'info') {
+                bannerNotificacion.classList.remove('hidden');
+                bannerTexto.textContent = mensaje;
+
+                if (tipo === 'ficticio') {
+                    bannerContenido.className = 'rounded-xl p-4 border bg-caramelo-500/15 border-caramelo-500 text-brownie-900 flex items-start justify-between gap-4 shadow-sm';
+                } else if (tipo === 'alerta') {
+                    bannerContenido.className = 'rounded-xl p-4 border bg-rose-50 border-rose-300 text-rose-900 flex items-start justify-between gap-4 shadow-sm';
+                } else {
+                    bannerContenido.className = 'rounded-xl p-4 border bg-crema-50 border-crema-300 text-brownie-800 flex items-start justify-between gap-4 shadow-sm';
+                }
+            }
+
+            btnCerrarBanner.addEventListener('click', () => {
+                bannerNotificacion.classList.add('hidden');
+            });
+
+            /**
+             * Valida un campo numérico individual evitando números negativos
+             */
+            function validarCampoNumerico(inputEl, errorId) {
+                const errorEl = document.getElementById(errorId);
+                const rawVal = inputEl.value.trim();
+
+                if (rawVal === '') {
+                    errorEl.classList.add('hidden');
+                    inputEl.classList.remove('border-rose-500');
+                    return { valido: true, vacio: true, valor: null };
+                }
+
+                const num = Number(rawVal);
+                if (isNaN(num) || num < 0) {
+                    errorEl.textContent = 'Ingresa un número válido mayor o igual a 0.';
+                    errorEl.classList.remove('hidden');
+                    inputEl.classList.add('border-rose-500');
+                    return { valido: false, vacio: false, valor: null };
+                }
+
+                errorEl.classList.add('hidden');
+                inputEl.classList.remove('border-rose-500');
+                return { valido: true, vacio: false, valor: num };
+            }
+
+            /**
+             * Actualiza el estilo y texto del semáforo para cada métrica
+             */
+            function actualizarSemaforo(clave, valorCalculado, metaValor, mayorEsMejor, esTarjetaOscura = false) {
+                const badgeEl = document.getElementById(`badge-${clave}`);
+                const resEl = document.getElementById(`res-${clave}`);
+                const descEl = document.getElementById(`desc-${clave}`);
+
+                // Si no hay valor calculado válido
+                if (valorCalculado === null || isNaN(valorCalculado)) {
+                    resEl.textContent = '-- %';
+                    badgeEl.textContent = clave === 'roi' ? 'Sin inversión' : 'Sin datos';
+                    badgeEl.className = esTarjetaOscura 
+                        ? 'px-2.5 py-1 rounded-full text-xs font-bold bg-brownie-700 text-crema-200'
+                        : 'px-2.5 py-1 rounded-full text-xs font-bold bg-crema-200 text-brownie-700';
+                    return;
+                }
+
+                resEl.textContent = formatoPorcentaje(valorCalculado);
+
+                // Si la meta no es válida o está vacía
+                if (isNaN(metaValor) || metaValor < 0 && clave !== 'roi') {
+                    badgeEl.textContent = 'Meta inválida';
+                    badgeEl.className = 'px-2.5 py-1 rounded-full text-xs font-bold bg-crema-300 text-brownie-900';
+                    descEl.textContent = 'Establece una meta válida para evaluar el semáforo de rendimiento.';
+                    return;
+                }
+
+                let estado = 'amarillo'; // verde, amarillo, rojo
+                let etiqueta = '';
+                let explicacion = '';
+
+                if (mayorEsMejor) {
+                    // Lógica donde un valor MAYOR o IGUAL a la meta es óptimo (Verde)
+                    // Amarillo si está al menos al 75% de la meta
+                    // Rojo si está por debajo del 75% de la meta
+                    const umbralAmarillo = metaValor > 0 ? metaValor * 0.75 : 0;
+
+                    if (valorCalculado >= metaValor) {
+                        estado = 'verde';
+                        etiqueta = 'Verde · Meta cumplida';
+                        explicacion = `Excelente resultado (${formatoPorcentaje(valorCalculado)}). Supera o iguala la meta establecida de ${formatoPorcentaje(metaValor)}.`;
+                    } else if (valorCalculado >= umbralAmarillo && valorCalculado > 0) {
+                        estado = 'amarillo';
+                        etiqueta = 'Amarillo · Cerca de meta';
+                        explicacion = `Rendimiento moderado (${formatoPorcentaje(valorCalculado)}). Se encuentra en zona de seguimiento respecto a la meta de ${formatoPorcentaje(metaValor)}.`;
+                    } else {
+                        estado = 'rojo';
+                        etiqueta = 'Rojo · Bajo la meta';
+                        explicacion = `Desempeño insuficiente (${formatoPorcentaje(valorCalculado)}). Está significativamente por debajo de la meta objetivo de ${formatoPorcentaje(metaValor)}.`;
+                    }
+                } else {
+                    // Lógica donde un valor MENOR o IGUAL a la meta máxima es óptimo (Verde)
+                    // Amarillo si supera la meta hasta en un 50% adicional (1.5x)
+                    // Rojo si supera en más del 50% la meta máxima permitida
+                    const limiteAmarillo = metaValor > 0 ? metaValor * 1.5 : 0.05;
+
+                    if (valorCalculado <= metaValor) {
+                        estado = 'verde';
+                        etiqueta = 'Verde · Bajo control';
+                        explicacion = `Indicador saludable (${formatoPorcentaje(valorCalculado)}). Se mantiene dentro del límite máximo permitido de ${formatoPorcentaje(metaValor)}.`;
+                    } else if (valorCalculado <= limiteAmarillo) {
+                        estado = 'amarillo';
+                        etiqueta = 'Amarillo · Precaución';
+                        explicacion = `Atención requerida (${formatoPorcentaje(valorCalculado)}). Supera ligeramente el límite ideal de ${formatoPorcentaje(metaValor)}.`;
+                    } else {
+                        estado = 'rojo';
+                        etiqueta = 'Rojo · Riesgo alto';
+                        explicacion = `Nivel crítico (${formatoPorcentaje(valorCalculado)}). Excede con amplitud el umbral máximo aceptable de ${formatoPorcentaje(metaValor)}.`;
+                    }
+                }
+
+                // Aplicar clases de color según el estado
+                badgeEl.textContent = etiqueta;
+                if (estado === 'verde') {
+                    badgeEl.className = 'px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-900 border border-emerald-300';
+                } else if (estado === 'amarillo') {
+                    badgeEl.className = 'px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-900 border border-amber-300';
+                } else {
+                    badgeEl.className = 'px-2.5 py-1 rounded-full text-xs font-bold bg-rose-100 text-rose-900 border border-rose-300';
+                }
+
+                descEl.textContent = explicacion;
+            }
+
+            /**
+             * Función principal de cálculo en tiempo real
+             */
+            function recalcularTodo() {
+                // 1. Validar todas las entradas
+                const vEntregados = validarCampoNumerico(inputs.entregados, 'error-entregados');
+                const vClics = validarCampoNumerico(inputs.clics, 'error-clics');
+                const vRespuestas = validarCampoNumerico(inputs.respuestas, 'error-respuestas');
+                const vConversiones = validarCampoNumerico(inputs.conversiones, 'error-conversiones');
+                const vBajas = validarCampoNumerico(inputs.bajas, 'error-bajas');
+                const vSpam = validarCampoNumerico(inputs.spam, 'error-spam');
+                const vInversion = validarCampoNumerico(inputs.inversion, 'error-inversion');
+                const vIngresoConv = validarCampoNumerico(inputs.ingresoConv, 'error-ingreso-conv');
+
+                // Verificar si el denominador (correos entregados) existe y es mayor a 0
+                const tieneDenominadorValido = vEntregados.valido && !vEntregados.vacio && vEntregados.valor > 0;
+
+                if (!tieneDenominadorValido) {
+                    alertaDenominador.classList.remove('hidden');
+                    if (vEntregados.valido && !vEntregados.vacio && vEntregados.valor === 0) {
+                        alertaDenominador.querySelector('h3').textContent = 'Denominador en cero (No se puede dividir entre 0)';
+                        alertaDenominador.querySelector('p').innerHTML = 'Los <strong>Correos entregados</strong> deben ser mayores a cero para calcular porcentajes sin errores matemáticos.';
+                    } else {
+                        alertaDenominador.querySelector('h3').textContent = 'Falta el denominador principal (Correos entregados)';
+                        alertaDenominador.querySelector('p').innerHTML = 'Para calcular las tasas porcentuales de clics, respuesta, conversión, bajas y spam, ingresa un valor mayor a cero en el campo <strong>Correos entregados</strong>.';
+                    }
+                } else {
+                    alertaDenominador.classList.add('hidden');
+                }
+
+                // Función auxiliar para calcular tasa si ambos valores son válidos
+                const calcularTasa = (numeradorObj) => {
+                    if (!tieneDenominadorValido || !numeradorObj.valido || numeradorObj.vacio) {
+                        return null;
+                    }
+                    return (numeradorObj.valor / vEntregados.valor) * 100;
+                };
+
+                // 2. Calcular las 5 tasas
+                const tasaClics = calcularTasa(vClics);
+                const tasaRespuestas = calcularTasa(vRespuestas);
+                const tasaConversiones = calcularTasa(vConversiones);
+                const tasaBajas = calcularTasa(vBajas);
+                const tasaSpam = calcularTasa(vSpam);
+
+                // Actualizar textos por defecto cuando falta el dato específico aunque haya entregados
+                if (tieneDenominadorValido) {
+                    if (tasaClics === null) document.getElementById('desc-clics').textContent = 'Ingresa la cantidad de clics únicos para calcular esta tasa.';
+                    if (tasaRespuestas === null) document.getElementById('desc-respuestas').textContent = 'Ingresa la cantidad de respuestas para calcular esta tasa.';
+                    if (tasaConversiones === null) document.getElementById('desc-conversiones').textContent = 'Ingresa la cantidad de conversiones para calcular esta tasa.';
+                    if (tasaBajas === null) document.getElementById('desc-bajas').textContent = 'Ingresa la cantidad de bajas para calcular esta tasa.';
+                    if (tasaSpam === null) document.getElementById('desc-spam').textContent = 'Ingresa los reportes de spam para calcular esta tasa.';
+                } else {
+                    document.getElementById('desc-clics').textContent = 'Falta el total de correos entregados para calcular la tasa.';
+                    document.getElementById('desc-respuestas').textContent = 'Falta el total de correos entregados para calcular la tasa.';
+                    document.getElementById('desc-conversiones').textContent = 'Falta el total de correos entregados para calcular la tasa.';
+                    document.getElementById('desc-bajas').textContent = 'Falta el total de correos entregados para calcular la tasa.';
+                    document.getElementById('desc-spam').textContent = 'Falta el total de correos entregados para calcular la tasa.';
+                }
+
+                // Actualizar semáforos de las 5 tasas
+                actualizarSemaforo('clics', tasaClics, parseFloat(metas.clics.value), true);
+                actualizarSemaforo('respuestas', tasaRespuestas, parseFloat(metas.respuestas.value), true);
+                actualizarSemaforo('conversiones', tasaConversiones, parseFloat(metas.conversiones.value), true);
+                actualizarSemaforo('bajas', tasaBajas, parseFloat(metas.bajas.value), false);
+                actualizarSemaforo('spam', tasaSpam, parseFloat(metas.spam.value), false);
+
+                // 3. Calcular Ingresos Totales y ROI
+                const conversionesValidas = vConversiones.valido && !vConversiones.vacio ? vConversiones.valor : 0;
+                const ingresoUnitarioValido = vIngresoConv.valido && !vIngresoConv.vacio ? vIngresoConv.valor : 0;
+                const ingresosTotales = conversionesValidas * ingresoUnitarioValido;
+
+                valorIngresosTotales.textContent = formatoCOP.format(ingresosTotales);
+
+                const tieneInversionValida = vInversion.valido && !vInversion.vacio && vInversion.valor > 0;
+                const tieneDatosIngresos = (vConversiones.valido && !vConversiones.vacio) && (vIngresoConv.valido && !vIngresoConv.vacio);
+
+                if (!tieneInversionValida) {
+                    actualizarSemaforo('roi', null, parseFloat(metas.roi.value), true, true);
+                    if (vInversion.valido && !vInversion.vacio && vInversion.valor === 0) {
+                        document.getElementById('desc-roi').textContent = 'La inversión no puede ser cero (división entre cero no permitida).';
+                    } else {
+                        document.getElementById('desc-roi').textContent = 'Falta el monto de inversión en pesos colombianos para calcular el ROI.';
+                    }
+                } else if (!tieneDatosIngresos) {
+                    actualizarSemaforo('roi', null, parseFloat(metas.roi.value), true, true);
+                    document.getElementById('badge-roi').textContent = 'Faltan ingresos';
+                    document.getElementById('desc-roi').textContent = 'Ingresa las conversiones y el ingreso por conversión para determinar los ingresos totales y el ROI.';
+                } else {
+                    const roiCalculado = ((ingresosTotales - vInversion.valor) / vInversion.valor) * 100;
+                    actualizarSemaforo('roi', roiCalculado, parseFloat(metas.roi.value), true, true);
+                }
+            }
+
+            // Escuchar cambios en todas las entradas y metas
+            Object.values(inputs).forEach(input => {
+                input.addEventListener('input', recalcularTodo);
+            });
+
+            Object.values(metas).forEach(meta => {
+                meta.addEventListener('input', recalcularTodo);
+            });
+
+            // Botón para cargar datos de ejemplo FICTICIOS
+            btnEjemplo.addEventListener('click', () => {
+                inputs.entregados.value = 15000;
+                inputs.clics.value = 480;
+                inputs.respuestas.value = 95;
+                inputs.conversiones.value = 135;
+                inputs.bajas.value = 24;
+                inputs.spam.value = 5;
+                inputs.inversion.value = 1800000;
+                inputs.ingresoConv.value = 65000;
+
+                // Restaurar metas estándar
+                metas.clics.value = 2.5;
+                metas.respuestas.value = 0.5;
+                metas.conversiones.value = 1.0;
+                metas.bajas.value = 0.2;
+                metas.spam.value = 0.05;
+                metas.roi.value = 200;
+
+                recalcularTodo();
+                mostrarBanner(
+                    'AVISO: Se han cargado DATOS FICTICIOS de ejemplo (15.000 correos entregados y valores financieros simulados en COP) para demostrar el funcionamiento de la calculadora.',
+                    'ficticio'
+                );
+            });
+
+            // Botón para limpiar todos los campos
+            btnLimpiar.addEventListener('click', () => {
+                inputNombreCampana.value = '';
+                inputCtaCampana.value = '';
+                Object.values(inputs).forEach(input => {
+                    input.value = '';
+                });
+                bannerNotificacion.classList.add('hidden');
+                recalcularTodo();
+            });
+
+            // Inicializar estado al cargar la página
+            recalcularTodo();
+        });
+    </script>
+</body>
+</html>
